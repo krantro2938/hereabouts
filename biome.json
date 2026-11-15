@@ -1,0 +1,55 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.2.4/schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"files": {
+		"ignoreUnknown": true,
+		"includes": [
+			"src/**",
+			"scripts/**",
+			"vite.config.ts",
+			"!src/routeTree.gen.ts",
+			"!src/components/ui",
+			"!src/styles.css"
+		]
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab"
+	},
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"correctness": {
+				"useExhaustiveDependencies": "warn"
+			},
+			"suspicious": {
+				"noArrayIndexKey": "warn"
+			},
+			"complexity": {
+				"noUselessFragments": "warn"
+			},
+			"a11y": {
+				"noSvgWithoutTitle": "off",
+				"useSemanticElements": "warn",
+				"useAriaPropsSupportedByRole": "warn"
+			}
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "double"
+		}
+	}
+}

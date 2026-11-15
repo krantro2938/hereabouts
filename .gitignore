@@ -1,0 +1,13 @@
+node_modules
+.output
+.nitro
+.tanstack
+dist
+data/*.db*
+data/audio/*
+!data/audio/.gitkeep
+.env
+*.log
+data/photos/*
+!data/photos/.gitkeep
+.claude/

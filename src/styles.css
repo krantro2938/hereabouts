@@ -1,0 +1,352 @@
+@import "@fontsource-variable/inter/opsz.css";
+@import "@fontsource-variable/literata/standard";
+@import "@fontsource-variable/literata/standard-italic";
+@import "maplibre-gl/dist/maplibre-gl.css";
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/*
+ * Hereabouts design tokens — "Night map". See DESIGN.md.
+ * Charcoal panels over a dark street map, one warm gold for what's live or chosen,
+ * a serif reserved for the storytellers' own words. Decade colours run from old
+ * sepia through gold to cool dusk blue on pin rings and chips.
+ */
+:root {
+	color-scheme: dark;
+
+	/* surfaces, back to front */
+	--canvas: #111214; /* app background, behind everything */
+	--map: #17181a; /* map land */
+	--panel: #1b1c1f; /* sidebar, sheets, cards */
+	--raised: #232427; /* chips, inputs, hovered rows */
+	--raised-2: #2c2d31; /* pressed, clusters */
+	--sunk: #151619; /* chart tracks, wells */
+
+	/* lines */
+	--line: rgb(255 255 255 / 0.075);
+	--line-strong: rgb(255 255 255 / 0.13);
+
+	/* text */
+	--text: #ededef;
+	--text-soft: #a1a2a8;
+	--text-faint: #6c6d74;
+
+	/* the one accent: warm gold */
+	--gold: #f3d08e;
+	--gold-strong: #e8bb62;
+	--gold-ink: #2b2212; /* text on gold */
+	--gold-tint: rgb(243 208 142 / 0.12);
+	--gold-line: rgb(243 208 142 / 0.5);
+
+	/* status */
+	--on-air: #ef5a4f; /* recording, destructive */
+	--signal: #e6d36b; /* circle / family */
+	--ok: #63c98b; /* public, success */
+	--now: #3d86f0; /* "now" marker on the waveform only */
+
+	/* decade ramp: sepia (old) → gold → dusk blue (recent) */
+	--decade-1930: #b08a72;
+	--decade-1940: #c09a74;
+	--decade-1950: #d3ae7a;
+	--decade-1960: #e3c483;
+	--decade-1970: #e0d38e;
+	--decade-1980: #b9d595;
+	--decade-1990: #8fcfae;
+	--decade-2000: #7cc1cb;
+	--decade-2010: #85a9e2;
+	--decade-2020: #a39bea;
+
+	--radius: 0.75rem;
+
+	/* legacy names (first design) mapped onto the night palette */
+	--paper: var(--canvas);
+	--paper-raised: var(--panel);
+	--paper-sunk: var(--sunk);
+	--ink: var(--text);
+	--ink-soft: var(--text-soft);
+	--ink-faint: var(--text-faint);
+	--rule: var(--line);
+	--amber: var(--gold);
+	--amber-deep: var(--gold-strong);
+
+	/* shadcn semantic mapping */
+	--background: var(--canvas);
+	--foreground: var(--text);
+	--card: var(--panel);
+	--card-foreground: var(--text);
+	--popover: var(--panel);
+	--popover-foreground: var(--text);
+	--primary: var(--gold);
+	--primary-foreground: var(--gold-ink);
+	--secondary: var(--raised);
+	--secondary-foreground: var(--text);
+	--muted: var(--raised);
+	--muted-foreground: var(--text-soft);
+	--accent: var(--raised);
+	--accent-foreground: var(--text);
+	--destructive: var(--on-air);
+	--destructive-foreground: #fff;
+	--border: var(--line);
+	--input: var(--line-strong);
+	--ring: var(--gold);
+}
+
+@theme inline {
+	--font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+	--font-display: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+	--font-serif: "Literata Variable", Georgia, serif;
+
+	--color-canvas: var(--canvas);
+	--color-map: var(--map);
+	--color-panel: var(--panel);
+	--color-raised: var(--raised);
+	--color-raised-2: var(--raised-2);
+	--color-sunk: var(--sunk);
+	--color-line: var(--line);
+	--color-line-strong: var(--line-strong);
+	--color-text: var(--text);
+	--color-text-soft: var(--text-soft);
+	--color-text-faint: var(--text-faint);
+	--color-gold: var(--gold);
+	--color-gold-strong: var(--gold-strong);
+	--color-gold-ink: var(--gold-ink);
+	--color-gold-tint: var(--gold-tint);
+	--color-gold-line: var(--gold-line);
+	--color-on-air: var(--on-air);
+	--color-signal: var(--signal);
+	--color-ok: var(--ok);
+	--color-now: var(--now);
+
+	--color-paper: var(--paper);
+	--color-paper-raised: var(--paper-raised);
+	--color-paper-sunk: var(--paper-sunk);
+	--color-ink: var(--ink);
+	--color-ink-soft: var(--ink-soft);
+	--color-ink-faint: var(--ink-faint);
+	--color-rule: var(--rule);
+	--color-amber: var(--amber);
+	--color-amber-deep: var(--amber-deep);
+
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-card: var(--card);
+	--color-card-foreground: var(--card-foreground);
+	--color-popover: var(--popover);
+	--color-popover-foreground: var(--popover-foreground);
+	--color-primary: var(--primary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-secondary: var(--secondary);
+	--color-secondary-foreground: var(--secondary-foreground);
+	--color-muted: var(--muted);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-accent: var(--accent);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-destructive: var(--destructive);
+	--color-destructive-foreground: var(--destructive-foreground);
+	--color-border: var(--border);
+	--color-input: var(--input);
+	--color-ring: var(--ring);
+
+	--radius-sm: 0.375rem;
+	--radius-md: 0.5rem;
+	--radius-lg: 0.625rem;
+	--radius-xl: 0.875rem;
+	--radius-2xl: 1.125rem;
+
+	/* deep, neutral shadows: panels float over the map */
+	--shadow-sheet: 0 0 0 1px var(--line), 0 18px 40px -12px rgb(0 0 0 / 0.65);
+	--shadow-float: 0 0 0 1px var(--line-strong), 0 24px 60px -16px rgb(0 0 0 / 0.75);
+	--shadow-key: inset 0 1px 0 rgb(255 255 255 / 0.06);
+	--shadow-key-light: inset 0 1px 0 rgb(255 255 255 / 0.06);
+	--shadow-well: inset 0 1px 2px rgb(0 0 0 / 0.4);
+}
+
+@layer base {
+	* {
+		@apply border-border outline-ring/60;
+	}
+	html {
+		-webkit-text-size-adjust: 100%;
+		background: var(--canvas);
+	}
+	body {
+		@apply bg-background text-foreground font-sans antialiased;
+		font-size: 0.9375rem; /* 15px UI text */
+		line-height: 1.55;
+		font-optical-sizing: auto;
+		font-feature-settings: "cv11", "ss01";
+	}
+	h1,
+	h2,
+	h3 {
+		font-family: var(--font-sans);
+		font-weight: 600;
+		letter-spacing: -0.02em;
+		line-height: 1.1;
+		text-wrap: balance;
+	}
+	p {
+		text-wrap: pretty;
+	}
+	::selection {
+		background: rgb(243 208 142 / 0.35);
+	}
+	:focus-visible {
+		outline: 2px solid var(--gold);
+		outline-offset: 2px;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		*,
+		*::before,
+		*::after {
+			animation-duration: 0.01ms !important;
+			transition-duration: 0.01ms !important;
+		}
+	}
+}
+
+@layer components {
+	/* The storyteller's own words — the only serif in the product */
+	.prose-story {
+		font-family: var(--font-serif);
+		font-size: 1.125rem;
+		line-height: 1.75;
+		max-width: 36em;
+		color: #e4e2dc;
+	}
+	.prose-story p + p {
+		margin-top: 0.9em;
+	}
+
+	/* Figures: counts, durations, years */
+	.numerals {
+		font-family: var(--font-sans);
+		font-variant-numeric: tabular-nums;
+		font-weight: 600;
+		letter-spacing: -0.01em;
+	}
+
+	/* A floating panel over the map, or a card on the canvas */
+	.panel {
+		background: var(--panel);
+		border: 1px solid var(--line);
+		border-radius: var(--radius-xl);
+	}
+	.panel-float {
+		background: color-mix(in srgb, var(--panel) 94%, transparent);
+		border-radius: var(--radius-xl);
+		box-shadow: var(--shadow-float);
+		backdrop-filter: blur(10px);
+	}
+
+	/* Small caps-free section label: "Story details", "Storytellers" */
+	.section-label {
+		font-size: 0.75rem;
+		font-weight: 500;
+		color: var(--text-faint);
+		letter-spacing: 0.01em;
+	}
+
+	/* Hatched fill: the unplayed / future part of a waveform or chart */
+	.hatch {
+		background-image: repeating-linear-gradient(
+			135deg,
+			rgb(255 255 255 / 0.16) 0 1.5px,
+			transparent 1.5px 5px
+		);
+	}
+
+	/* Keyboard hint chip: ⌥ SPACE */
+	.kbd {
+		display: inline-flex;
+		align-items: center;
+		height: 1.4rem;
+		padding: 0 0.4rem;
+		border-radius: 0.375rem;
+		background: var(--raised-2);
+		color: var(--text-soft);
+		font-size: 0.6875rem;
+		font-weight: 600;
+		letter-spacing: 0.04em;
+	}
+
+	/* legacy surface classes from the first design */
+	.paper-grid {
+		background-color: var(--canvas);
+	}
+	.cabinet {
+		background: var(--panel);
+		box-shadow: var(--shadow-float);
+	}
+	.dial-glass {
+		background: var(--sunk);
+	}
+}
+
+/* MapLibre chrome */
+.maplibregl-map {
+	font-family: var(--font-sans);
+}
+.maplibregl-ctrl-group {
+	background: var(--panel) !important;
+	border-radius: var(--radius-lg) !important;
+	box-shadow: var(--shadow-float) !important;
+	overflow: hidden;
+}
+.maplibregl-ctrl-group button + button {
+	border-top: 1px solid var(--line) !important;
+}
+.maplibregl-ctrl-group button .maplibregl-ctrl-icon {
+	filter: invert(0.85);
+}
+.maplibregl-ctrl-attrib {
+	font-size: 10.5px;
+	background: rgb(17 18 20 / 0.7) !important;
+	color: var(--text-faint);
+}
+.maplibregl-ctrl-attrib a {
+	color: var(--text-soft) !important;
+}
+.maplibregl-ctrl-attrib-button {
+	filter: invert(0.8);
+}
+.maplibregl-popup-content {
+	background: transparent;
+	box-shadow: none;
+	padding: 0;
+}
+.maplibregl-popup-tip {
+	display: none;
+}
+
+@keyframes on-air-pulse {
+	0%,
+	100% {
+		box-shadow: 0 0 0 0 rgb(239 90 79 / 0.55);
+	}
+	50% {
+		box-shadow: 0 0 0 14px rgb(239 90 79 / 0);
+	}
+}
+@keyframes pin-ripple {
+	from {
+		transform: scale(1);
+		opacity: 0.6;
+	}
+	to {
+		transform: scale(2.6);
+		opacity: 0;
+	}
+}
+
+.maplibregl-ctrl-top-right {
+	top: var(--hb-ctrl-top, 4.5rem) !important;
+}
+.maplibregl-ctrl-bottom-right,
+.maplibregl-ctrl-bottom-left {
+	bottom: var(--hb-ctrl-bottom, 0px) !important;
+}
+.hb-pick-marker {
+	cursor: grab;
+	filter: drop-shadow(0 6px 10px rgb(0 0 0 / 0.6));
+}
